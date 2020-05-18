@@ -24,8 +24,9 @@ emep_executables=${emep_input_root}executables/
 NAMELIST_FILES=( 'config_emep.nml.UK_3km'  \
 				 'config_emep.nml.EMEP_50km' )
 
-batch_emep_script_template=${emep_input_root}batch_script_templates/batch_emep_job_array_template.sh
-batch_emep_script=batch_emep_job_array.sh
+BATCH_SCRIPT_TEMPLATES=( 'batch_emep_europe_template.sh' 'batch_emep_uk_template.sh' )
+batch_templates=${emep_input_root}batch_script_templates/
+
 
 emep_executable_name='emepctm-r3_44-mpi_314-vert_read_fix-emiss_sector_read_fix-more_emission_variables'
 
@@ -51,13 +52,16 @@ mkdir -p ${working_directory}
 mkdir -p ${emep_working_namelists}
 
 
-# copy the WRF batch script, setting required information
-sed -e "s|%%JOBID%%|${jobid}|g" \
-	-e "s|%%WRFDIR%%|${wrf_directory}|g" \
-	-e "s|%%EMEPDIR%%|${working_directory}|g" \
-	-e "s|%%EMEPEXEC%%|${emep_exec}|g" \
-	${batch_emep_script_template} > ${working_directory}${batch_emep_script}
-
+# copy the EMEP batch scripts, setting required information
+for batchfile_template in ${BATCH_SCRIPT_TEMPLATES[@]}
+do
+	batchfile=${batchfile_template//_template/}
+	sed -e "s|%%JOBID%%|${jobid}|g" \
+		-e "s|%%WRFDIR%%|${wrf_directory}|g" \
+		-e "s|%%EMEPDIR%%|${working_directory}|g" \
+		-e "s|%%EMEPEXEC%%|${emep_exec}|g" \
+		${batch_templates}/${batchfile_template} > ${working_directory}${batchfile}
+done
 
 
 # copy the namelist files, setting date information

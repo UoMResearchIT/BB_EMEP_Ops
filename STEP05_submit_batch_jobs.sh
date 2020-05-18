@@ -17,10 +17,9 @@ source $1
 
 download_script=batch_download.sh
 wps_script=batch_automate_ungrib_metgrid.sh
-real_script=batch_real_job_array.sh
-wrf_script=batch_wrf_job_array.sh
-emep_script=batch_emep_job_array.sh
-
+real_scripts=( 'batch_real_europe.sh' 'batch_real_uk.sh' )
+wrf_scripts=( 'batch_wrf_europe.sh' 'batch_wrf_uk.sh' )
+emep_scripts=( 'batch_emep_europe.sh' 'batch_emep_uk.sh' )
 
 ### create script settings
 
@@ -41,15 +40,23 @@ qsub ${wps_script}
 sleep 2
 
 cd ${wrf_directory}
-qsub ${real_script}
-sleep 2
-qsub ${wrf_script}
-sleep 2
+for real_script in ${real_scripts[@]}
+do
+	qsub ${real_script}
+	sleep 2
+done
+for wrf_script in ${wrf_scripts[@]}
+do
+	qsub ${wrf_script}
+	sleep 2
+done
 
 cd ${emep_directory}
-qsub ${emep_script}
-sleep 2
-
+for emep_script in ${emep_scripts[@]}
+do
+	qsub ${emep_script}
+	sleep 2
+done
 
 
 

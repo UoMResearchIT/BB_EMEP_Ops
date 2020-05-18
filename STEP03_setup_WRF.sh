@@ -24,11 +24,11 @@ NAMELIST_FILES=( 'namelist.input.3km_UK.30vlevels'  \
 				 'namelist.input.50km_EMEP_REAL.30vlevels.analysis_nudging' \
 				 'namelist.input.50km_EMEP_WRF.30vlevels.analysis_nudging' )
 
-batch_real_script_template=${wrf_input_root}batch_script_templates/batch_real_job_array_template.sh
-batch_real_script=batch_real_job_array.sh
+BATCH_SCRIPT_TEMPLATES=( 'batch_real_europe_template.sh' 'batch_real_uk_template.sh' \
+						 'batch_wrf_europe_template.sh' 'batch_wrf_uk_template.sh' )
 
-batch_wrf_script_template=${wrf_input_root}batch_script_templates/batch_wrf_job_array_template.sh
-batch_wrf_script=batch_wrf_job_array.sh
+batch_templates=${wrf_input_root}batch_script_templates/
+
 
 
 ### create script settings
@@ -49,17 +49,16 @@ mkdir -p ${working_directory}
 mkdir -p ${wrf_working_namelists}
 
 
-# copy the REAL batch script, setting required information
-sed -e "s|%%JOBID%%|${jobid}|g" \
-	-e "s|%%WRFDIR%%|${working_directory}|g" \
-	-e "s|%%WPSDIR%%|${wps_directory}|g" \
-	${batch_real_script_template} > ${working_directory}${batch_real_script}
+# copy the REAL and WRF batch scripts, setting required information
+for batchfile_template in ${BATCH_SCRIPT_TEMPLATES[@]}
+do
+	batchfile=${batchfile_template//_template/}
+	sed -e "s|%%JOBID%%|${jobid}|g" \
+		-e "s|%%WRFDIR%%|${working_directory}|g" \
+		-e "s|%%WPSDIR%%|${wps_directory}|g" \
+		${batch_templates}/${batchfile_template} > ${working_directory}${batchfile}
+done
 
-# copy the WRF batch script, setting required information
-sed -e "s|%%JOBID%%|${jobid}|g" \
-	-e "s|%%WRFDIR%%|${working_directory}|g" \
-	-e "s|%%WPSDIR%%|${wps_directory}|g" \
-	${batch_wrf_script_template} > ${working_directory}${batch_wrf_script}
 
 
 
