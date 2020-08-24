@@ -22,3 +22,5 @@ the information inside this as you need.
 3) bash RUN\_setup\_STEPS\_1\_to\_4.sh
 4) check the new working directories - make sure they are okay
 5) bash STEP05\_submit\_batch\_jobs.sh [config\_file.txt]
+
+Operational inputs for these scripts are available at: https://doi.org/10.5281/zenodo.3997270
