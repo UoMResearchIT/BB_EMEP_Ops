@@ -65,12 +65,12 @@ sleep 2
 
 cd ${emep_directory}
 NAMETAG=${wrf_ID[0]}${jobid}; jobid_calc; WRFEU_ID=${JOBID_VALUE}
-sbatch --dependency=aftercorr:${WRF_EUID} ${emep_scripts[0]}
+sbatch --dependency=aftercorr:${WRFEU_ID} ${emep_scripts[0]}
 sleep 2
 
 NAMETAG=${emep_ID[0]}${jobid}; jobid_calc; EMEPEU_ID=${JOBID_VALUE}
 NAMETAG=${wrf_ID[1]}${jobid}; jobid_calc; WRFUK_ID=${JOBID_VALUE}
-sbatch --dependency=aftercorr:${WRF_UKID}:${EMEPEU_ID} ${emep_scripts[0]}
+sbatch --dependency=aftercorr:${WRFUK_ID}:${EMEPEU_ID} ${emep_scripts[1]}
 sleep 2
 
 
