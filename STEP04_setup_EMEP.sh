@@ -28,7 +28,7 @@ BATCH_SCRIPT_TEMPLATES=( 'batch_emep_europe_template.sh' 'batch_emep_uk_template
 batch_templates=${emep_input_root}batch_script_templates/
 
 
-emep_executable_name='emepctm-r3_44-mpi_314-vert_read_fix-emiss_sector_read_fix-more_emission_variables'
+emep_executable_name='emepctm-r3_44-mpi_418-vert_read_fix-emiss_sector_read_fix-more_emission_variables'
 
 ### create script settings
 

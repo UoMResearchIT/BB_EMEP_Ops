@@ -13,9 +13,13 @@ source $1
 
 ### fixed settings
 
+# load WPS module for paths
+module load apps/gcc/wps/4.5
+
 wps_input_root=/mnt/eps01-rds/turing_air_health/Britain_Breathing_Operational_Inputs/WPS/
 
-wps_dir_template=${wps_input_root}WPS_template/
+wps_dir_template=${WPS_RUNDIR}
+wps_altVtables=${wps_input_root}alt_Vtables/
 wps_namelists=${wps_input_root}namelist_templates/
 wps_geogrid_data=${wps_input_root}geo_grid_data/
 
@@ -81,12 +85,14 @@ done
 
 # setup atmospheric ungrib workspace
 cp -a ${wps_dir_template} ${working_directory}WPS_UNGRIB_ATM
+cp -a ${wps_altVtables} ${working_directory}WPS_UNGRIB_ATM/ungrib/Variable_Tables/
 cd ${working_directory}WPS_UNGRIB_ATM
 ln -s ungrib/Variable_Tables/alt_Vtables/Vtable.ECATM Vtable
 ln -s ${wps_working_namelists}/namelist.wps.ungrib_atm namelist.wps
 
 # setup surface ungrib workspace
 cp -a ${wps_dir_template} ${working_directory}WPS_UNGRIB_SFC
+cp -a ${wps_altVtables} ${working_directory}WPS_UNGRIB_SFC/ungrib/Variable_Tables/
 cd ${working_directory}WPS_UNGRIB_SFC
 ln -s ungrib/Variable_Tables/alt_Vtables/Vtable.ECSFC Vtable
 ln -s ${wps_working_namelists}/namelist.wps.ungrib_sfc namelist.wps

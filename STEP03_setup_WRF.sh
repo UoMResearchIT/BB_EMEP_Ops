@@ -13,11 +13,13 @@ source $1
 
 ### fixed settings
 
+#load WRF module for paths
+module load apps/gcc/wrf/4.5
+
 wrf_input_root=/mnt/eps01-rds/turing_air_health/Britain_Breathing_Operational_Inputs/WRF/
 
-wrf_run_template=${wrf_input_root}run_template_intel/
+wrf_run_template=${WRF_RUNDIR}
 wrf_namelists=${wrf_input_root}namelist_templates/
-wrf_executables=${wrf_input_root}executables/intel_compiled_fpmath_precise/
 
 
 NAMELIST_FILES=( 'namelist.input.3km_UK.30vlevels'  \
@@ -38,7 +40,6 @@ working_directory=${working_general_root}/${jobid}/WRF_Operations/
 wps_directory=${working_general_root}/${jobid}/WPS_Operations/
 
 wrf_working_namelists=${working_directory}/namelists/
-wrf_working_executables=${working_directory}/executables/
 
 
 ### working code
@@ -75,27 +76,22 @@ do
 		 > ${wrf_working_namelists}/${namefile}
 done
 
-# copy executables
-cp -a ${wrf_executables} ${wrf_working_executables}
 
 
 # setup the EMEP 50km domain REAL working directory
 cp -a ${wrf_run_template} ${working_directory}/EMEP_REAL_50km
 cd ${working_directory}/EMEP_REAL_50km
-ln -s ${wrf_working_executables}/*exe .
 ln -s ${wrf_working_namelists}/namelist.input.50km_EMEP_REAL.30vlevels.analysis_nudging namelist.input
 
 
 # setup the EMEP 50km domain WRF working directory
 cp -a ${wrf_run_template} ${working_directory}/EMEP_WRF_50km
 cd ${working_directory}/EMEP_WRF_50km
-ln -s ${wrf_working_executables}/*exe .
 ln -s ${wrf_working_namelists}/namelist.input.50km_EMEP_WRF.30vlevels.analysis_nudging namelist.input
 
 # setup the UK 3km domain working directory
 cp -a ${wrf_run_template} ${working_directory}/UK_3km
 cd ${working_directory}/UK_3km
-ln -s ${wrf_working_executables}/*exe .
 ln -s ${wrf_working_namelists}/namelist.input.3km_UK.30vlevels namelist.input
 
 
