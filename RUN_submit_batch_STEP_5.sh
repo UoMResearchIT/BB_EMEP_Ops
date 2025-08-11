@@ -4,6 +4,7 @@
 #  Script for running Steps 1 & 2 & 3 & 4 of the running directory setup
 #    for a list of scenarios (automating the command line actions).
 #
+WORKFLOW='single_uk_domain'
 
 
 
@@ -27,6 +28,6 @@ SCENARIOS=( 'Nov_Dec_2020.txt' )
 for scen in ${SCENARIOS[@]}; do
 
 	echo "submitting batch scripts for scenario: "${scen}
-	bash STEP05_submit_batch_jobs.sh ${scen}
+	bash ${WORKFLOW}/STEP05_submit_batch_jobs.sh ${scen}
 
 done
