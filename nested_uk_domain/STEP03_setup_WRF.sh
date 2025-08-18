@@ -22,12 +22,16 @@ wrf_run_template=${WRF_RUNDIR}
 wrf_namelists=${wrf_input_root}namelist_templates/
 
 
-NAMELIST_FILES=( 'namelist.input.3km_UK.30vlevels'  \
+NAMELIST_FILES=( 'namelist.input.3km_UK_NDOWN.30vlevels'  \
+                 'namelist.input.3km_UK_WRF.30vlevels'  \
+                 'namelist.input.45km_UK_REAL.30vlevels.analysis_nudging' \
+                 'namelist.input.45km_UK_WRF.30vlevels.analysis_nudging' \
 				 'namelist.input.50km_EMEP_REAL.30vlevels.analysis_nudging' \
 				 'namelist.input.50km_EMEP_WRF.30vlevels.analysis_nudging' )
 
 BATCH_SCRIPT_TEMPLATES=( 'batch_real_europe_template.sh' 'batch_real_uk_template.sh' \
-						 'batch_wrf_europe_template.sh' 'batch_wrf_uk_template.sh' )
+						 'batch_wrf_europe_template.sh' 'batch_wrf_outer_uk_template.sh' \
+						 'batch_ndown_uk_template.sh' 'batch_wrf_uk_template.sh' )
 
 batch_templates=${wrf_input_root}batch_script_templates/
 
@@ -89,10 +93,26 @@ cp -a ${wrf_run_template} ${working_directory}/EMEP_WRF_50km
 cd ${working_directory}/EMEP_WRF_50km
 ln -s ${wrf_working_namelists}/namelist.input.50km_EMEP_WRF.30vlevels.analysis_nudging namelist.input
 
-# setup the UK 3km domain working directory
+# setup the UK 45km / 9km / 3km domain REAL working directory
+cp -a ${wrf_run_template} ${working_directory}/UK_REAL_45km
+cd ${working_directory}/UK_REAL_45km
+ln -s ${wrf_working_namelists}/namelist.input.45km_UK_REAL.30vlevels.analysis_nudging namelist.input
+
+# setup the UK 45km / 9km WRF working directory
+cp -a ${wrf_run_template} ${working_directory}/UK_WRF_45km
+cd ${working_directory}/UK_WRF_45km
+ln -s ${wrf_working_namelists}/namelist.input.45km_UK_WRF.30vlevels.analysis_nudging namelist.input
+
+# setup the UK 3km domain NDOWN working directory
+cp -a ${wrf_run_template} ${working_directory}/UK_NDOWN_45km
+cd ${working_directory}/UK_NDOWN_45km
+ln -s ${wrf_working_namelists}/namelist.input.3km_UK_NDOWN.30vlevels namelist.input
+
+
+# setup the UK 3km domain WRF working directory
 cp -a ${wrf_run_template} ${working_directory}/UK_3km
 cd ${working_directory}/UK_3km
-ln -s ${wrf_working_namelists}/namelist.input.3km_UK.30vlevels namelist.input
+ln -s ${wrf_working_namelists}/namelist.input.3km_UK_WRF.30vlevels namelist.input
 
 
 
