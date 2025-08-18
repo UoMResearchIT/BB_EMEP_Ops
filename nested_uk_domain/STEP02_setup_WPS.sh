@@ -26,7 +26,7 @@ wps_geogrid_data=${wps_input_root}geo_grid_data/
 
 
 NAMELIST_FILES=( 'namelist.wps.ungrib_sfc' 'namelist.wps.ungrib_atm' \
-				'namelist.wps.emep_50km' 'namelist.wps.emep_uk3km' )
+				'namelist.wps.emep_50km' 'namelist.wps.emep_eu45km_uk3km' )
 
 batch_script_template=${wps_input_root}batch_script_templates/batch_automate_ungrib_metgrid_template.sh
 batch_script=batch_automate_ungrib_metgrid.sh
@@ -104,10 +104,12 @@ ln -s ${wps_working_namelists}/namelist.wps.ungrib_sfc namelist.wps
 
 
 # setup UK 3km grid metgrid workspace
-cp -a ${wps_dir_template} ${working_directory}WPS_METGRID_3km
-cd ${working_directory}WPS_METGRID_3km
-ln -s ${wps_working_geogrid_data}UK_3km/geo_em.d01.nc .
-ln -s ${wps_working_namelists}/namelist.wps.emep_uk3km namelist.wps
+cp -a ${wps_dir_template} ${working_directory}WPS_METGRID_45km
+cd ${working_directory}WPS_METGRID_45km
+ln -s ${wps_working_geogrid_data}UK_45km/geo_em.d01.nc .
+ln -s ${wps_working_geogrid_data}UK_45km/geo_em.d02.nc .
+ln -s ${wps_working_geogrid_data}UK_45km/geo_em.d03.nc .
+ln -s ${wps_working_namelists}/namelist.wps.emep_eu45km_uk3km namelist.wps
 
 # setup EMEP 50km grid metgrid workspace
 cp -a ${wps_dir_template} ${working_directory}WPS_METGRID_50km
