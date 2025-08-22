@@ -21,13 +21,15 @@ jobid_calc ()
 download_script=batch_download.sh
 wps_script=batch_automate_ungrib_metgrid.sh
 real_scripts=( 'batch_real_europe.sh' 'batch_real_uk.sh' )
-wrf_scripts=( 'batch_wrf_europe.sh' 'batch_wrf_uk.sh' )
+ndown_scripts=( 'batch_ndown_uk.sh' )
+wrf_scripts=( 'batch_wrf_europe.sh' 'batch_wrf_outer_uk.sh' 'batch_wrf_uk.sh' )
 emep_scripts=( 'batch_emep_europe.sh' 'batch_emep_uk.sh' )
 
 era_ID=( 'ERA5-' )
 wps_ID=( 'WPS-' )
 real_ID=( 'REAL-EU-' 'REAL-UK-' )
-wrf_ID=( 'WRF-EU-' 'WRF-UK-' )
+ndown_ID=( 'NDOWN-UK-' )
+wrf_ID=( 'WRF-EU-' 'WRF-OUTERUK-' 'WRF-UK-' )
 emep_ID=( 'EMEP-EU-' 'EMEP-UK-' )
 
 ### create script settings
@@ -61,6 +63,12 @@ sbatch --dependency=aftercorr:${REALID} ${wrf_scripts[0]}
 sleep 2
 NAMETAG=${real_ID[1]}${jobid}; jobid_calc; REALID=${JOBID_VALUE}
 sbatch --dependency=aftercorr:${REALID} ${wrf_scripts[1]}
+sleep 2
+NAMETAG=${wrf_ID[1]}${jobid}; jobid_calc; WRFOUTERUKID=${JOBID_VALUE}
+sbatch --dependency=aftercorr:${WRFOUTERUKID} ${ndown_scripts[0]}
+sleep 2
+NAMETAG=${ndown_ID[0]}${jobid}; jobid_calc; NDOWNUKID=${JOBID_VALUE}
+sbatch --dependency=aftercorr:${NDOWNUKID} ${wrf_scripts[2]}
 sleep 2
 
 cd ${emep_directory}
