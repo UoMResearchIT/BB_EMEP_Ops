@@ -104,8 +104,8 @@ cd ${working_directory}/UK_WRF_45km
 ln -s ${wrf_working_namelists}/namelist.input.45km_UK_WRF.30vlevels.analysis_nudging namelist.input
 
 # setup the UK 3km domain NDOWN working directory
-cp -a ${wrf_run_template} ${working_directory}/UK_NDOWN_45km
-cd ${working_directory}/UK_NDOWN_45km
+cp -a ${wrf_run_template} ${working_directory}/UK_NDOWN_3km
+cd ${working_directory}/UK_NDOWN_3km
 ln -s ${wrf_working_namelists}/namelist.input.3km_UK_NDOWN.30vlevels namelist.input
 
 
