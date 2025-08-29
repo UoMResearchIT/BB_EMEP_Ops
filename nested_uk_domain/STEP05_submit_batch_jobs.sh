@@ -23,14 +23,14 @@ wps_script=batch_automate_ungrib_metgrid.sh
 real_scripts=( 'batch_real_europe.sh' 'batch_real_uk.sh' )
 ndown_scripts=( 'batch_ndown_uk.sh' )
 wrf_scripts=( 'batch_wrf_europe.sh' 'batch_wrf_outer_uk.sh' 'batch_wrf_uk.sh' )
-emep_scripts=( 'batch_emep_europe.sh' 'batch_emep_uk.sh' )
+emep_scripts=( 'batch_emep_europe.sh' 'batch_emep_uk_45km.sh' 'batch_emep_uk_3km.sh' )
 
 era_ID=( 'ERA5-' )
 wps_ID=( 'WPS-' )
 real_ID=( 'REAL-EU-' 'REAL-UK-' )
 ndown_ID=( 'NDOWN-UK-' )
 wrf_ID=( 'WRF-EU-' 'WRF-OUTERUK-' 'WRF-UK-' )
-emep_ID=( 'EMEP-EU-' 'EMEP-UK-' )
+emep_ID=( 'EMEP-EU-' 'EMEP-UK45-' 'EMEP-UK3-' )
 
 ### create script settings
 
@@ -77,8 +77,12 @@ sbatch --dependency=aftercorr:${WRFEU_ID} ${emep_scripts[0]}
 sleep 2
 
 NAMETAG=${emep_ID[0]}${jobid}; jobid_calc; EMEPEU_ID=${JOBID_VALUE}
-NAMETAG=${wrf_ID[1]}${jobid}; jobid_calc; WRFUK_ID=${JOBID_VALUE}
-sbatch --dependency=aftercorr:${WRFUK_ID}:${EMEPEU_ID} ${emep_scripts[1]}
+NAMETAG=${wrf_ID[1]}${jobid}; jobid_calc; WRFOUTERUK_ID=${JOBID_VALUE}
+sbatch --dependency=aftercorr:${WRFOUTERUK_ID}:${EMEPEU_ID} ${emep_scripts[1]}
 sleep 2
 
+NAMETAG=${emep_ID[1]}${jobid}; jobid_calc; EMEPOUTERUK_ID=${JOBID_VALUE}
+NAMETAG=${wrf_ID[2]}${jobid}; jobid_calc; WRFUK_ID=${JOBID_VALUE}
+sbatch --dependency=aftercorr:${WRFUK_ID}:${EMEPOUTERUK_ID} ${emep_scripts[2]}
+sleep 2
 
