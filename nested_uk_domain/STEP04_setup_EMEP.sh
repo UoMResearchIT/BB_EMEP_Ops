@@ -22,9 +22,13 @@ emep_namelists=${emep_input_root}namelist_templates/
 emep_executables=${emep_input_root}executables/
 
 NAMELIST_FILES=( 'config_emep.nml.UK_3km'  \
+                 'config_emep.nml.UK_45km' \
 				 'config_emep.nml.EMEP_50km' )
 
-BATCH_SCRIPT_TEMPLATES=( 'batch_emep_europe_template.sh' 'batch_emep_uk_template.sh' )
+BATCH_SCRIPT_TEMPLATES=( 'batch_emep_europe_template.sh' \
+                         'batch_emep_uk_45km_template.sh' \
+		         'batch_emep_uk_3km_template.sh' )
+
 batch_templates=${emep_input_root}batch_script_templates/
 
 
@@ -96,14 +100,23 @@ mkdir domain1_output
 ln -s ${emep_working_namelists}/config_emep.nml.EMEP_50km config_emep.nml
 ln -s ${emep_working_data} input_data
 
-# create UK 3km working directory
-mkdir ${working_directory}UK_domain
-cd ${working_directory}UK_domain
+# create UK 45km working directory
+mkdir ${working_directory}UK_45km_domain
+cd ${working_directory}UK_45km_domain
 ln -s ${working_directory}EMEP_domain/domain1_output .
+mkdir domain2_output
+ln -s ${emep_working_namelists}/config_emep.nml.UK_45km config_emep.nml
+ln -s ${emep_working_data} input_data
+
+# create UK 3km working directory
+mkdir ${working_directory}UK_3km_domain
+cd ${working_directory}UK_3km_domain
+ln -s ${working_directory}UK_45km_domain/domain2_output .
 ln -s ${emep_working_namelists}/config_emep.nml.UK_3km config_emep.nml
 ln -s ${emep_working_data} input_data
 
 # make meteorology directory
 mkdir -p ${working_directory}/wrf_meteo/EMEP_grid
-mkdir -p ${working_directory}/wrf_meteo/UK_grid
+mkdir -p ${working_directory}/wrf_meteo/UK_45km_grid
+mkdir -p ${working_directory}/wrf_meteo/UK_3km_grid
 
