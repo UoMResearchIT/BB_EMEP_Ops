@@ -14,7 +14,7 @@ source $1
 
 ### fixed settings
 
-era5_input_root=/mnt/eps01-rds/turing_air_health/Britain_Breathing_Operational_Inputs/ERA5/
+era5_input_root=/mnt/eps01-rds/turing_air_health/Operational_Inputs/EMEP_Workflow_Ops_Inputs/ERA5/
 scripts_root=${era5_input_root}ERA5_download_scripts/
 
 download_script_template=${scripts_root}batch_download_template.sh

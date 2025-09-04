@@ -16,7 +16,7 @@ source $1
 # load WPS module for paths
 module load apps/gcc/wps/4.5
 
-wps_input_root=/mnt/eps01-rds/turing_air_health/Britain_Breathing_Operational_Inputs/WPS/
+wps_input_root=/mnt/eps01-rds/turing_air_health/Operational_Inputs/EMEP_Workflow_Ops_Inputs/WPS/
 
 wps_dir_template=${WPS_RUNDIR}
 wps_altVtables=${wps_input_root}alt_Vtables/

@@ -16,7 +16,7 @@ source $1
 #load WRF module for paths
 module load apps/gcc/wrf/4.5
 
-wrf_input_root=/mnt/eps01-rds/turing_air_health/Britain_Breathing_Operational_Inputs/WRF/
+wrf_input_root=/mnt/eps01-rds/turing_air_health/Operational_Inputs/EMEP_Workflow_Ops_Inputs/WRF/
 
 wrf_run_template=${WRF_RUNDIR}
 wrf_namelists=${wrf_input_root}namelist_templates/
