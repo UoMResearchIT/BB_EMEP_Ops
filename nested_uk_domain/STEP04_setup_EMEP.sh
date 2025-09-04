@@ -16,7 +16,7 @@ source $1
 
 ### fixed settings
 
-emep_input_root=/mnt/eps01-rds/turing_air_health/Britain_Breathing_Operational_Inputs/EMEP/
+emep_input_root=/mnt/eps01-rds/turing_air_health/Operational_Inputs/EMEP_Workflow_Ops_Inputs/EMEP/
 
 emep_namelists=${emep_input_root}namelist_templates/
 emep_executables=${emep_input_root}executables/
@@ -112,6 +112,7 @@ ln -s ${emep_working_data} input_data
 mkdir ${working_directory}UK_3km_domain
 cd ${working_directory}UK_3km_domain
 ln -s ${working_directory}UK_45km_domain/domain2_output .
+mkdir domain3_output
 ln -s ${emep_working_namelists}/config_emep.nml.UK_3km config_emep.nml
 ln -s ${emep_working_data} input_data
 
