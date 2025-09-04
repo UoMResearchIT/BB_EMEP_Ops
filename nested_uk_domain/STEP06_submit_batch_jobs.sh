@@ -5,7 +5,7 @@
 
 if [ "$1" = "" ] ; then
 	echo "This script sets up running directories for EMEP."
-    echo "usage: STEP05_submit_batch_jobs.sh [global settings file]"
+    echo "usage: STEP06_submit_batch_jobs.sh [global settings file]"
     exit
 fi
 
@@ -24,6 +24,7 @@ real_scripts=( 'batch_real_europe.sh' 'batch_real_uk.sh' )
 ndown_scripts=( 'batch_ndown_uk.sh' )
 wrf_scripts=( 'batch_wrf_europe.sh' 'batch_wrf_outer_uk.sh' 'batch_wrf_uk.sh' )
 emep_scripts=( 'batch_emep_europe.sh' 'batch_emep_uk_45km.sh' 'batch_emep_uk_3km.sh' )
+postproc_scripts=( 'batch_extract_45km.sh' 'batch_extract_3km.sh' )
 
 era_ID=( 'ERA5-' )
 wps_ID=( 'WPS-' )
@@ -31,6 +32,7 @@ real_ID=( 'REAL-EU-' 'REAL-UK-' )
 ndown_ID=( 'NDOWN-UK-' )
 wrf_ID=( 'WRF-EU-' 'WRF-OUTERUK-' 'WRF-UK-' )
 emep_ID=( 'EMEP-EU-' 'EMEP-UK45-' 'EMEP-UK3-' )
+post_ID=( 'DATA-45km-' 'DATA-3km-' )
 
 ### create script settings
 
@@ -38,7 +40,7 @@ download_directory=${working_general_root}/${jobid}/download_ERA5/
 wps_directory=${working_general_root}/${jobid}/WPS_Operations/
 wrf_directory=${working_general_root}/${jobid}/WRF_Operations/
 emep_directory=${working_general_root}/${jobid}/EMEP_Operations/
-
+postproc_directory=${working_general_root}/${jobid}/Data_Extraction/
 
 ### working code
 
@@ -85,4 +87,11 @@ NAMETAG=${emep_ID[1]}${jobid}; jobid_calc; EMEPOUTERUK_ID=${JOBID_VALUE}
 NAMETAG=${wrf_ID[2]}${jobid}; jobid_calc; WRFUK_ID=${JOBID_VALUE}
 sbatch --dependency=aftercorr:${WRFUK_ID}:${EMEPOUTERUK_ID} ${emep_scripts[2]}
 sleep 2
+
+cd ${postproc_directory}
+NAMETAG=${emep_ID[1]}${jobid}; jobid_calc; EMEPOUTERUK_ID=${JOBID_VALUE}
+sbatch --dependency=aftercorr:${EMEPOUTERUK_ID} ${postproc_scripts[0]}
+NAMETAG=${emep_ID[2]}${jobid}; jobid_calc; EMEPUK_ID=${JOBID_VALUE}
+sbatch --dependency=aftercorr:${EMEPUK_ID} ${postproc_scripts[0]}
+
 
