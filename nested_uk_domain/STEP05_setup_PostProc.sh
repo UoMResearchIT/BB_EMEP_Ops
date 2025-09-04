@@ -54,6 +54,7 @@ do
 	batchfile=${BATCH_SCRIPT_NAMES[$i]}
 	domain=${DOMAINS[$i]}
 	wrf_directory=${wrf_base_directory}${WRF_DIRECTORIES[$i]}
+	emep_directory=${emep_base_directory}${EMEP_DIRECTORIES[$i]}
 	out_directory=${out_base_directory}${OUT_DIRECTORIES[$i]}
 	sed -e "s|%%DOM%%|${domain}|g" \
 		-e "s|%%JOBID%%|${jobid}|g" \
@@ -66,7 +67,7 @@ do
 		-e "s|%%DAYEND%%|${end_day}|g" \
 		-e "s|%%WRFDIR%%|${wrf_directory}|g" \
 		-e "s|%%EMEPDIR%%|${emep_directory}|g" \
-		-e "s|%%OUTPUTDIR%%|${out_directory}|g" \
+		-e "s|%%OUTDIR%%|${out_directory}|g" \
 		${post_scripts}/${batchfile_template} > ${working_directory}${batchfile}
 done
 
