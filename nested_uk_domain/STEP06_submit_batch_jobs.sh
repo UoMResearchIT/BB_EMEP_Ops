@@ -92,6 +92,6 @@ cd ${postproc_directory}
 NAMETAG=${emep_ID[1]}${jobid}; jobid_calc; EMEPOUTERUK_ID=${JOBID_VALUE}
 sbatch --dependency=aftercorr:${EMEPOUTERUK_ID} ${postproc_scripts[0]}
 NAMETAG=${emep_ID[2]}${jobid}; jobid_calc; EMEPUK_ID=${JOBID_VALUE}
-sbatch --dependency=aftercorr:${EMEPUK_ID} ${postproc_scripts[0]}
+sbatch --dependency=aftercorr:${EMEPUK_ID} ${postproc_scripts[1]}
 
 
